@@ -9,21 +9,20 @@ import productRoutes from "./routes/products.route.js";
 // Load environment variables
 dotenv.config();
 
-// Get __dirname for ES Modules
+// ✅ Fix: Define __dirname correctly for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Apply CORS middleware correctly (Remove duplicate)
+// ✅ Use CORS correctly (No duplicates)
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type,Authorization'
 }));
 
-// Middleware
 app.use(express.json());
 
 // Routes
@@ -37,13 +36,13 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-// ✅ Start server locally (Fix: Un-comment app.listen)
+// ✅ Start server in development
 if (process.env.NODE_ENV !== "production") {
-    connectDB();  // Connect to the database before starting the server
+    connectDB();
     app.listen(PORT, () => {
         console.log("Server started at http://localhost:" + PORT);
     });
 }
 
-// ✅ Export app for Vercel deployment
+// ✅ Export for Vercel deployment
 export default app;
